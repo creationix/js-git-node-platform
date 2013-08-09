@@ -1,0 +1,27 @@
+{
+  "name": "js-git-node-platform",
+  "version": "0.2.0",
+  "description": "Platform for js-git to run on node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/creationix/js-git-node-platform.git"
+  },
+  "keywords": [
+    "js-git",
+    "node.js",
+    "platform"
+  ],
+  "author": "Tim Caswell <tim@creationix.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/creationix/js-git-node-platform/issues"
+  },
+  "dependencies": {
+    "bops": "0.0.6",
+    "ssh2": "~0.2.12"
+  }
+}
