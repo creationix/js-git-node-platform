@@ -43,18 +43,28 @@ function chroot(root) {
 // Given a path, return a continuable for the stat object.
 function stat(path, callback) {
   if (!callback) return stat.bind(this, path);
-  fs.stat(path, function (err, stat) {
+  fs.lstat(path, function (err, stat) {
     if (err) return callback(err);
     var ctime = stat.ctime / 1000;
     var cseconds = Math.floor(ctime);
     var mtime = stat.mtime / 1000;
     var mseconds = Math.floor(mtime);
+    var mode;
+    if (stat.isSymbolicLink()) {
+      mode = 0120000;
+    }
+    else if (stat.mode & 0111) {
+      mode = 0100755;
+    }
+    else {
+      mode = 0100644;
+    }
     callback(null, {
       ctime: [cseconds, Math.floor((ctime - cseconds) * 1000000000)],
       mtime: [mseconds, Math.floor((mtime - mseconds) * 1000000000)],
       dev: stat.dev,
       ino: stat.ino,
-      mode: stat.mode,
+      mode: mode,
       uid: stat.uid,
       gid: stat.gid,
       size: stat.size
@@ -71,9 +81,9 @@ function read(path, encoding, callback) {
   fs.readFile(path, encoding, callback);
 }
 
-function write(path, value, encoding, callback) {
-  if (!callback) return write.bind(this, path, value, encoding);
-  fs.writeFile(path, value, encoding, callback);
+function write(path, value, mode, callback) {
+  if (!callback) return write.bind(this, path, value, mode);
+  fs.writeFile(path, value, {mode: mode}, callback);
 }
 
 function unlink(path, callback) {
@@ -88,7 +98,7 @@ function readlink(path, callback) {
 
 function symlink(path, value, callback) {
   if (!callback) return symlink.bind(this, path, value);
-  fs.symlink(path, value, callback);
+  fs.symlink(value, path, callback);
 }
 
 function readdir(path, callback) {
