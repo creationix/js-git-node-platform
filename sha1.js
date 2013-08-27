@@ -2,9 +2,9 @@ var crypto = require('crypto');
 
 module.exports = function (buffer) {
   if (buffer === undefined) return create();
-  var shasum = crypto.createHash('sha1');
+  var shasum = create();
   shasum.update(buffer);
-  return shasum.digest('hex');
+  return shasum.digest();
 }
 
 // A streaming interface for when nothing is passed in.
