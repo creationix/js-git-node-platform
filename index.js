@@ -1,4 +1,5 @@
 module.exports = {
+  bops: require('bops'),
   fs: require('./fs.js'),
   tcp: require('./tcp.js'),
   http: require('./http.js'),
