@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs = require('graceful-fs');
 var pathJoin = require('path').join;
 var pathResolve = require('path').resolve;
 
